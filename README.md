@@ -14,6 +14,7 @@ devtools::install_github("https://github.com/nathancunn/acRonym")
 get_acronyms("Three letter acronym (TLA). Or Three letter initialism (TLI)")
 ```
 Gives:
+
 | Acronym | Definition              |
 |---------|-------------------------|
 | TLA     | Three Letter Acronym    |
