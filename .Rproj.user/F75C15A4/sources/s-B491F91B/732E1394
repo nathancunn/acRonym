@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1564749740335.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "732E1394",
+    "lastKnownWriteTime" : 1564751399,
+    "last_content_update" : 1564751399837,
+    "path" : "C:/Users/natha/google-drive/r-packages/acRonym/R/acRonym.R",
+    "project_path" : "R/acRonym.R",
+    "properties" : {
+        "cursorPosition" : "41,45",
+        "scrollLine" : "33"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

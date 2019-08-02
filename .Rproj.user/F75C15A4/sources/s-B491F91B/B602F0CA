@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1564749749907.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "B602F0CA",
+    "lastKnownWriteTime" : 1564749644,
+    "last_content_update" : 1564749644,
+    "path" : "C:/Users/natha/google-drive/acronym_definer.R",
+    "project_path" : null,
+    "properties" : {
+        "cursorPosition" : "39,1",
+        "scrollLine" : "16"
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
