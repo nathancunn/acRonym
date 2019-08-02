@@ -1,7 +1,8 @@
 # acRonym
 This is an R package for extracting acronyms defined within a body of text. It
-assumes that acronyms are defined in the format: Three Letter Acronym (TLA) and also
-that you only define one acronym per sentence.
+assumes that acronyms are defined in the format: "Three Letter Acronym (TLA)" i.e. the acronym comes after the definition, 
+the acronym is capitalised, and the definition is of the same length as the acronym (excluding the words 'of', 'the', and 'with'). 
+Only one acronym per sentence.
 
 # Installation
 ``` r
