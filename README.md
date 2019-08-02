@@ -11,8 +11,7 @@ devtools::install_github("https://github.com/nathancunn/acRonym")
 
 # Basic use
 ```r
-get_acronyms("Three letter acronym (TLA). Or Three letter initialism (TLI). 
-              Also, ignores the/of in, e.g., United States of America (USA)")
+get_acronyms("Three letter acronym (TLA). Or Three letter initialism (TLI). Also, ignores the/of in, e.g., United States of America (USA)")
 ```
 Gives:
 
