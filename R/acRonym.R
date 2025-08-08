@@ -5,8 +5,7 @@
 #' @param str A string containing the acronyms.
 #' @return A tibble with columns "Acronym" and "Definition"
 #' @examples
-#' readLines(file) %>%
-#' get_acronyms
+#' # get_acronyms(readLines(file))
 #' @import dplyr
 #' @import tibble
 #' @import stringr
@@ -89,6 +88,5 @@ get_acronyms_dir <- function(path, extension = "tex") {
   }
   out %>% group_by(Acronym) %>%
     slice(1) %>%
-    ungroup() %>%
-    return
+    ungroup()
 }
