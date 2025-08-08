@@ -17,6 +17,7 @@ Creates a tibble with a list of acronyms defined in `str` along with a guess at 
 definition. Acronyms are defined as occurring within parentheses
 }
 \examples{
-readLines(file) \%>\%
-get_acronyms
+\dontrun{
+get_acronyms(readLines(file))
+}
 }
