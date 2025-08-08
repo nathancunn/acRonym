@@ -15,28 +15,59 @@
 #' @export
 get_acronyms <- function(str) {
   tryCatch(expr = {
-    str %>%
-      str_split(pattern = "\n") %>%
-      str_split(pattern = fixed(".")) %>%
-      unlist() %>%
-      as_tibble() %>%
-      filter(str_detect(value, " \\([A-Z]+\\)")) %>%
-      mutate(value = str_replace_all(value, "---|\\{|\\}|-", " "),
-             value = str_replace_all(value, " (the|of|with)", "%%%\\1")) %>%
-      mutate(Acronym = map(value, function(x) str_extract(x, "\\([^()]+\\)"))) %>%
-      unnest() %>%
-      mutate(Acronym = str_sub(Acronym, 2, -2)) %>%
-      group_by(Acronym) %>%
-      slice(1) %>%
-      ungroup() %>%
-      mutate(num_letters = nchar(Acronym),
-             Definition = str_extract(value, ".+ \\("),
-             Definition = str_sub(Definition, end = -3),
-             Definition = word(Definition, start =  - num_letters, end = -1),
-             Definition = str_to_title(Definition),
-             Definition = str_replace_all(Definition, "%%%", " ")) %>%
-      select(Acronym, Definition)} ,
-    error =  function(e) tibble("Acronym" = character(), "Definition" = character()))
+    # Collapse input vector into a single string for simplicity
+    full_text <- paste(str, collapse = " . ")
+
+    # Split the text by the opening parenthesis of a potential acronym
+    parts <- stringr::str_split(full_text, " \\(")[[1]]
+
+    # If there's only one part, no acronyms were found
+    if (length(parts) <= 1) {
+      return(tibble::tibble("Acronym" = character(), "Definition" = character()))
+    }
+
+    # The text before each split is a potential definition
+    definitions_raw <- parts[1:(length(parts) - 1)]
+    # The text after each split contains the acronym
+    acronym_parts <- parts[2:length(parts)]
+
+    # Extract the acronym itself, which is at the start of the part, ending with a ')'
+    acronyms_raw <- stringr::str_extract(acronym_parts, "^[A-Z]{2,}\\)")
+
+    # Filter out parts that didn't contain a valid acronym (e.g., just an opening parenthesis)
+    valid_indices <- !is.na(acronyms_raw)
+    if (!any(valid_indices)) {
+      return(tibble::tibble("Acronym" = character(), "Definition" = character()))
+    }
+    acronyms <- stringr::str_sub(acronyms_raw[valid_indices], end = -2)
+    definitions_raw <- definitions_raw[valid_indices]
+
+    # For each raw definition, extract the correct number of words based on acronym length
+    definitions <- purrr::map2_chr(definitions_raw, nchar(acronyms), function(def_raw, n) {
+      # Handle special words like 'the', 'of', 'with' by temporarily replacing them
+      # so they aren't counted as separate words by `word()`
+      temp_text <- stringr::str_replace_all(def_raw, " (the|of|with)", "%%%\\1")
+      # Clean up other characters that might interfere with word separation
+      temp_text <- stringr::str_replace_all(temp_text, "---|\\{|\\}|-", " ")
+
+      # Extract the last N words
+      def <- stringr::word(temp_text, start = -n, end = -1)
+      # Restore the special words
+      def <- stringr::str_replace_all(def, "%%%", " ")
+      # Title case the definition
+      stringr::str_to_title(def)
+    })
+
+    # Create the final tibble and remove duplicate acronyms, keeping the first occurrence
+    tibble::tibble(Acronym = acronyms, Definition = definitions) %>%
+      dplyr::group_by(Acronym) %>%
+      dplyr::slice(1) %>%
+      dplyr::ungroup()
+
+  }, error = function(e) {
+    # In case of any error, return an empty tibble as the original function did
+    tibble::tibble("Acronym" = character(), "Definition" = character())
+  })
 }
 
 #' Get acronyms from all files in a directory
