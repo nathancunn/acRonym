@@ -60,9 +60,7 @@ get_acronyms <- function(str) {
 
     # Create the final tibble and remove duplicate acronyms, keeping the first occurrence
     tibble::tibble(Acronym = acronyms, Definition = definitions) %>%
-      dplyr::group_by(Acronym) %>%
-      dplyr::slice(1) %>%
-      dplyr::ungroup()
+      dplyr::distinct(Acronym, .keep_all = TRUE)
 
   }, error = function(e) {
     # In case of any error, return an empty tibble as the original function did
